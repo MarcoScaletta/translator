@@ -1,4 +1,4 @@
-package SentenceReorder;
+package sentencereorder;
 
 import com.taggingTool.PoSTag;
 import com.taggingTool.Sentence;
