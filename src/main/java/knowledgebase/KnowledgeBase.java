@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 public class KnowledgeBase {
 
-    private static HashMap<String,Entity> entityMap = new HashMap<>();
+    private static HashMap<String, knowledgebase.Entity> entityMap = new HashMap<>();
 
     static{
-        entityMap.put("father", Entity.PERSON);
+        entityMap.put("father", knowledgebase.Entity.PERSON);
     }
 
-    public static HashMap<String,Entity> getEntityMap() {
+    public static HashMap<String, knowledgebase.Entity> getEntityMap() {
         return entityMap;
     }
 }
