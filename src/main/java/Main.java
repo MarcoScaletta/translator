@@ -11,7 +11,7 @@ import translator.Translator;
 
 public class Main {
 
-    private static final String TREE_BANK_TRAINING = "../viterbi/training.txt";
+    private static final String TREE_BANK_TRAINING = "training.txt";
 
     private static final String[] SENTENCES = {
             "È la spada laser di tuo padre",
@@ -27,11 +27,7 @@ public class Main {
         Sentence sentence;
 
         TreeBankReader treeBankReader = new TreeBankReader(TREE_BANK_TRAINING);
-        treeBankReader.getPoSTagNums().put(new PoSTag("laser", Tag.ADJ), (long)1);
-        treeBankReader.getPoSTagPerWordNums().get("laser");
-        treeBankReader.getPoSTagPerWordNums()
-                .put("laser",treeBankReader.getPoSTagPerWordNums().get("laser")+1);
-        Tag nounAdjVerbPropn [] = {Tag.NOUN, Tag.ADJ, Tag.PROPN, Tag.VERB};
+        Tag[] nounAdjVerbPropn = {Tag.NOUN, Tag.ADJ, Tag.PROPN, Tag.VERB};
 
         Viterbi viterbi = new Viterbi(treeBankReader,nounAdjVerbPropn);
 

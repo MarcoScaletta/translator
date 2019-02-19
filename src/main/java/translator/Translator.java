@@ -106,9 +106,9 @@ public class Translator {
                 if(!toShift.isEmpty()){
                     poSTags.remove(i);
                     toShift.add(new PoSTag("'s", Tag.PART));
+                    poSTags.remove(lastDetIndex);
+                    poSTags.addAll(lastDetIndex, toShift);
                 }
-                poSTags.remove(lastDetIndex);
-                poSTags.addAll(lastDetIndex, toShift);
             }
         }
 

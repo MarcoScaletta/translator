@@ -7,6 +7,7 @@ import com.utilities.UtilitiesIO;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -32,8 +33,10 @@ public class Dictionary {
             String currentLine;
             while((currentLine = br.readLine()) != null) {
                 String[] columns = currentLine.split("/");
-
-                if(columns.length==5){
+                if(columns.length==3){
+                    poSTag = new PoSTag(columns[0],Tag.valueOf(columns[1]));
+                    translationMap.put(poSTag, columns[2]);
+                }else if(columns.length==4){
                     poSTag = new PoSTag(columns[0],Tag.valueOf(columns[1]));
                     translationMap.put(poSTag, columns[2]);
                     if(poSTag.getTag().equals(Tag.VERB) && columns[3].equals("IRR")){
