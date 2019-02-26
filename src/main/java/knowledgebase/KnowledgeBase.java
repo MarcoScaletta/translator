@@ -2,6 +2,9 @@ package knowledgebase;
 
 import java.util.HashMap;
 
+/**
+ * A simple Knowledge Base
+ */
 public class KnowledgeBase {
 
     private static HashMap<String, knowledgebase.Entity> entityMap = new HashMap<>();

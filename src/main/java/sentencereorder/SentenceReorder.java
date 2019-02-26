@@ -7,7 +7,15 @@ import com.taggingTool.Tag;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * It's a class that implement a static method that perform sentence reordering
+ */
 public class SentenceReorder {
+
+    /**
+     * Method for sentence reordering
+     * @param sentence the sentence to be reordered
+     */
     public static void rearrange(Sentence sentence){
         List<PoSTag> poSTagList = sentence.getPoSTags();
         for (int i = 0; i < poSTagList.size()-1; i++) {

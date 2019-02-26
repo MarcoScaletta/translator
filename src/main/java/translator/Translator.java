@@ -8,8 +8,12 @@ import com.taggingTool.Sentence;
 import com.taggingTool.Tag;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class implements methods for the translation
+ */
 public class Translator {
 
     private final Dictionary dictionary;
@@ -18,12 +22,20 @@ public class Translator {
         this.dictionary = dictionary;
     }
 
+    /**
+     * Method that performs translation
+     * @param sentence sentence to be translated
+     * @return a translated sentence
+     */
     public Sentence translate(Sentence sentence){
         Sentence result = new Sentence();
         List<PoSTag> res = new ArrayList<>();
         String temp;
         PoSTag poSTag;
+
+        composite(sentence);
         List<PoSTag> poSTags = sentence.getPoSTags();
+
         if(poSTags.get(0).getTag().equals(Tag.VERB)
                 || poSTags.get(0).getTag().equals(Tag.AUX))
             poSTags.add(0, new PoSTag("qualcuno-qualcosa", Tag.valueOf("PRON")));
@@ -53,9 +65,14 @@ public class Translator {
         possessive(result);
         subject(result);
         upperCase(result);
+
         return result;
     }
 
+    /**
+     * Applies grammar rules to the sentence
+     * @param sentence sentence to be modified
+     */
     private void grammarRule(Sentence sentence){
         List<PoSTag> poSTags = sentence.getPoSTags();
         for (int i = 0; i < poSTags.size(); i++) {
@@ -70,6 +87,10 @@ public class Translator {
         }
     }
 
+    /**
+     * Applies possessive rule to the sentence
+     * @param sentence sentence to be modified
+     */
     private void possessive(Sentence sentence){
         List<PoSTag> poSTags = sentence.getPoSTags();
         List<PoSTag> toShift;
@@ -114,6 +135,10 @@ public class Translator {
 
     }
 
+    /**
+     * Insert the implicit subject
+     * @param sentence sentence to be modified
+     */
     private void subject(Sentence sentence){
         List<PoSTag> poSTags = sentence.getPoSTags();
         for (int i = 0; i < poSTags.size(); i++) {
@@ -132,6 +157,10 @@ public class Translator {
         }
     }
 
+    /**
+     * Set to uppercase PROPN and the first word of the sentence, or subsentences
+     * @param sentence sentence to be modified
+     */
     private void upperCase(Sentence sentence){
         List<PoSTag> poSTags = sentence.getPoSTags();
         boolean beginSentence = true;
@@ -149,6 +178,25 @@ public class Translator {
                     || poSTags.get(i).getWord().equals("?")
                     || poSTags.get(i).getWord().equals("!")) {
                 beginSentence = true;
+            }
+        }
+    }
+
+    /**
+     * Method that substitutes composite words like "word_1 word_2" with "word_1-word_2"
+     * @param sentence sentence o be modified
+     */
+    private void composite(Sentence sentence){
+        int index;
+        PoSTag substitute;
+        for (List<PoSTag> list :  dictionary.getCompositeWords().keySet()){
+            index = Collections.indexOfSubList(sentence.getPoSTags(), list);
+            if(index > -1){
+                substitute = dictionary.getCompositeWords().get(list);
+                for (int i=0; i<list.size();i++){
+                    sentence.getPoSTags().remove(index);
+                }
+                sentence.getPoSTags().add(index,substitute);
             }
         }
     }

@@ -1,7 +1,9 @@
 padre/NOUN/father
-tuo/ADJ/your
+tuo/DET/your
 laser/ADJ/light
+laser/NOUN/light
 spada/NOUN/saber
+spada-laser/NOUN/lightsaber
 di/ADP/of
 ha/AUX/did
 fatto/VERB/made/IRR
@@ -16,7 +18,7 @@ vecchia/ADJ/old
 avanzi/NOUN/remnants
 sono/AUX/have
 stati/AUX/been
-spazzati/AUX/swept
+spazzati/VERB/swept
 via/ADV/away
 repubblica/NOUN/republic
 qualcuno-qualcosa/PRON/someone-something
