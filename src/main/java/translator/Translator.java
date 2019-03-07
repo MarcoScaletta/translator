@@ -97,6 +97,7 @@ public class Translator {
         PoSTag temp;
         boolean stop;
         boolean metNoun;
+        int lastVerbIndex = -1;
         int lastDetIndex = -1;
         for (int i = 0; i < poSTags.size(); i++) {
             stop = false;
@@ -104,6 +105,18 @@ public class Translator {
             toShift = new ArrayList<>();
             if(poSTags.get(i).getTag().equals(Tag.DET))
                 lastDetIndex = i;
+            else if(poSTags.get(i).getTag().equals(Tag.VERB))
+                lastVerbIndex = i;
+            else if(poSTags.get(i).getTag().equals(Tag.AUX)
+                    &&(i == poSTags.size()-1 ||
+                    !poSTags.get(i+1).getTag().equals(Tag.VERB)
+                    || !poSTags.get(i+1).getTag().equals(Tag.AUX)))
+                lastVerbIndex = i;
+            else if(poSTags.get(i).getTag().equals(Tag.AUX)
+                    &&(i == poSTags.size()-2 ||
+                    !poSTags.get(i+2).getTag().equals(Tag.VERB)
+                    || !poSTags.get(i+2).getTag().equals(Tag.AUX)))
+                lastVerbIndex = i;
             if(poSTags.get(i).equals(new PoSTag("of", Tag.ADP))){
                 while(!stop && i < poSTags.size()-1){
                     temp = poSTags.get(i+1);
@@ -124,12 +137,19 @@ public class Translator {
                         toShift.add(poSTags.remove(i+1));
                     }
                 }
+                System.out.println(poSTags);
                 if(!toShift.isEmpty()){
                     poSTags.remove(i);
                     toShift.add(new PoSTag("'s", Tag.PART));
-                    poSTags.remove(lastDetIndex);
-                    poSTags.addAll(lastDetIndex, toShift);
+                    if(lastDetIndex >= 0){
+                        poSTags.remove(lastDetIndex);
+                        poSTags.addAll(lastDetIndex, toShift);
+                    }else if(lastVerbIndex >= 0){
+                        poSTags.addAll(lastVerbIndex+1, toShift);
+                    }else
+                        poSTags.addAll(0, toShift);
                 }
+                System.out.println(poSTags);
             }
         }
 
